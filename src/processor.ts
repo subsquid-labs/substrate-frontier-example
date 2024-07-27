@@ -27,6 +27,7 @@ export const processor = new SubstrateBatchProcessor()
             timestamp: true,
         }
     })
+   .setBlockRange({ from: 846577 })
 
 export type Fields = SubstrateBatchProcessorFields<typeof processor>
 export type Block = BlockHeader<Fields>
