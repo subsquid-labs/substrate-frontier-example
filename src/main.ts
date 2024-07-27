@@ -9,14 +9,16 @@ processor.run(new TypeormDatabase(), async (ctx) => {
     const transfersData: TransferData[] = []
 
     for (const block of ctx.blocks) {
-        for (const item of block.items) {
-            if (item.name === 'EVM.Log') {
-                let evmLog = getEvmLog(ctx, item.event)
-                let transaction = getTransaction(ctx, item.event.call)
+        for (const event of block.events) {
+            if (event.name === 'EVM.Log') {
+                let evmLog = getEvmLog(event)
+                let transaction = getTransaction(event.getCall())
                 const e = erc721.events.Transfer.decode(evmLog)
-
+                if (block.header.timestamp==null) {
+                    throw new Error(`No timestamp for block ${block.header.height}`)
+                }
                 transfersData.push({
-                    id: item.event.id,
+                    id: event.id,
                     token: e.tokenId,
                     from: e.from,
                     to: e.to,
@@ -71,9 +73,9 @@ async function saveTransfers(ctx: ProcessorContext<Store>, transfersData: Transf
                 id: tokenId,
                 uri: await contract.tokenURI(t.token),
             })
-            tokens.set(token.id, token)
         }
         token.owner = to
+        tokens.set(token.id, token)
 
         const {id, block, transactionHash, timestamp} = t
 

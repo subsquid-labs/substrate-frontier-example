@@ -1,6 +1,5 @@
 {
   "outDir": "src/types",
-  "specVersions": "https://moonriver.archive.subsquid.io/graphql",
-  "events": [],
-  "calls": []
+  "specVersions": "https://v2.archive.subsquid.io/metadata/moonriver",
+  "pallets": {}
 }

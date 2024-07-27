@@ -1,4 +1,4 @@
-import {Entity as Entity_, Column as Column_, PrimaryColumn as PrimaryColumn_, ManyToOne as ManyToOne_, Index as Index_} from "typeorm"
+import {Entity as Entity_, Column as Column_, PrimaryColumn as PrimaryColumn_, ManyToOne as ManyToOne_, Index as Index_, DateTimeColumn as DateTimeColumn_, IntColumn as IntColumn_, StringColumn as StringColumn_} from "@subsquid/typeorm-store"
 import {Token} from "./token.model"
 import {Account} from "./account.model"
 
@@ -23,12 +23,12 @@ export class Transfer {
     @ManyToOne_(() => Account, {nullable: true})
     to!: Account
 
-    @Column_("timestamp with time zone", {nullable: false})
+    @DateTimeColumn_({nullable: false})
     timestamp!: Date
 
-    @Column_("int4", {nullable: false})
+    @IntColumn_({nullable: false})
     block!: number
 
-    @Column_("text", {nullable: false})
+    @StringColumn_({nullable: false})
     transactionHash!: string
 }

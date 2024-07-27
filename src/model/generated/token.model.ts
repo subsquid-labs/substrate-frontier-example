@@ -1,5 +1,4 @@
-import {Entity as Entity_, Column as Column_, PrimaryColumn as PrimaryColumn_, ManyToOne as ManyToOne_, Index as Index_, OneToMany as OneToMany_} from "typeorm"
-import * as marshal from "./marshal"
+import {Entity as Entity_, Column as Column_, PrimaryColumn as PrimaryColumn_, StringColumn as StringColumn_, ManyToOne as ManyToOne_, Index as Index_, OneToMany as OneToMany_} from "@subsquid/typeorm-store"
 import {Account} from "./account.model"
 import {Transfer} from "./transfer.model"
 
@@ -12,15 +11,12 @@ export class Token {
     @PrimaryColumn_()
     id!: string
 
-    @Column_("numeric", {transformer: marshal.bigintTransformer, nullable: false})
-    index!: bigint
+    @StringColumn_({nullable: false})
+    uri!: string
 
     @Index_()
     @ManyToOne_(() => Account, {nullable: true})
     owner!: Account
-
-    @Column_("text", {nullable: false})
-    uri!: string
 
     @OneToMany_(() => Transfer, e => e.token)
     transfers!: Transfer[]
