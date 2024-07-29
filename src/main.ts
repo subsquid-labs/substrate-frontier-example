@@ -1,16 +1,12 @@
-import {In} from 'typeorm'
 import {getEvmLog, getTransaction} from '@subsquid/frontier'
-import {Store, TypeormDatabase} from '@subsquid/typeorm-store'
-import * as erc721 from './abi/ERC721'
-import {Account, Token, Transfer} from './model'
+import {MockDatabase} from '@belopash/mock-store'
 import {CONTRACT_ADDRESS, ProcessorContext, processor} from './processor'
 
-processor.run(new TypeormDatabase(), async (ctx) => {
+processor.run(new MockDatabase(), async (ctx) => {
     for (const block of ctx.blocks) {
         for (const event of block.events) {
             if (event.name === 'EVM.Log') {
                 let call = event.getCall()
-                    console.error(call.args.transaction.signature.v)
                 try {
                     let transaction = getTransaction(call)
                 } catch (e) {
